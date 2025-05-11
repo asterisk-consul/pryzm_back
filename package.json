@@ -7,6 +7,7 @@
     "dev": "nodemon app.js",
     "babel": "nodemon src/app.js --exec babel-node",
     "build": "babel src -d dist --ignore node_modules",
+    "init-db": "node src/components/database/initTables.js",
     "start": "node dist/app.js",
     "pm2:start": "pm2 start dist/app.js --name 'mi-backend'",
     "pm2:restart": "pm2 restart mi-backend",
@@ -20,6 +21,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.26.0",
+    "bcryptjs": "^3.0.2",
     "chrome-aws-lambda": "^10.1.0",
     "connect-history-api-fallback": "^2.0.0",
     "cors": "^2.8.5",
@@ -28,6 +30,7 @@
     "express": "^4.21.0",
     "express-fileupload": "^1.5.1",
     "fileupload": "^1.0.0",
+    "jsonwebtoken": "^9.0.2",
     "module-alias": "^2.2.3",
     "moment": "^2.30.1",
     "morgan": "^1.10.0",
