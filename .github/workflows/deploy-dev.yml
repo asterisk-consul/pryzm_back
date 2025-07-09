@@ -31,7 +31,7 @@ jobs:
       - name: Create deploy package
         run: |
           echo "Creando paquete de despliegue"
-          tar czf deploy.tar.gz dist package.json package-lock.json .env node_modules
+          tar czf deploy.tar.gz dist package.json package-lock.json node_modules
 
       - name: Copy package to VPS
         uses: appleboy/scp-action@v0.1.7
