@@ -2,7 +2,8 @@ name: Deploy to VPS (dev)
 
 on:
   push:
-    branches: [dev]
+    branches:
+      - dev
 
 jobs:
   deploy:
@@ -12,38 +13,46 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
       - name: Install dependencies
-        run: npm ci
+        run: |
+          echo "Instalando todas las dependencias para el build"
+          npm ci
 
       - name: Build project
-        run: npm run build
+        run: |
+          echo "Haciendo build del proyecto"
+          npm run build
 
-      - name: Prepare production files
-        run: npm prune --production
+      - name: Clean up node_modules for production
+        run: |
+          echo "Instalando solo dependencias de producción"
+          npm prune --production
 
-      - name: Add SSH Key
-        uses: webfactory/ssh-agent@v0.8.0
+      - name: Copy files to VPS
+        uses: appleboy/scp-action@v0.1.7
         with:
-          ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          source: |
+            dist
+            package.json
+            package-lock.json
+            .env
+            node_modules
+          target: ${{ secrets.VPS_PATH }}
+          strip_components: 0
 
-      - name: Copy files via rsync
+      - name: Restart PM2 on VPS
         run: |
-          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" \
-            dist/ package.json package-lock.json .env node_modules/ \
-            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PATH }}
-
-      - name: Restart PM2
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} <<EOF
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} <<'EOF'
             cd ${{ secrets.VPS_PATH }}
-            if pm2 describe mi-backend-dev >/dev/null; then
+
+            echo "Reiniciando PM2"
+            if pm2 describe mi-backend-dev > /dev/null; then
               pm2 restart mi-backend-dev
             else
               npm run pm2:start
             fi
+            echo "Deploy exitoso"
           EOF
