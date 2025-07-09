@@ -32,21 +32,21 @@ var clientInstance = new _whatsappWeb.Client({
 });
 process.on("unhandledRejection", /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee(reason) {
-    return _regenerator["default"].wrap(function _callee$(_context) {
+    return _regenerator["default"].wrap(function (_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           if (!(typeof reason === "string" && (reason.includes("Protocol Error:") || reason.includes("Target closed.")))) {
-            _context.next = 5;
+            _context.next = 2;
             break;
           }
-          _context.next = 3;
+          _context.next = 1;
           return clientInstance.destroy();
-        case 3:
-          _context.next = 5;
+        case 1:
+          _context.next = 2;
           return fs.rmdir("./wwebjs_auth", {
             recursive: true
           });
-        case 5:
+        case 2:
         case "end":
           return _context.stop();
       }
@@ -58,21 +58,21 @@ process.on("unhandledRejection", /*#__PURE__*/function () {
 }());
 process.on("uncaughtException", /*#__PURE__*/function () {
   var _ref2 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee2(error) {
-    return _regenerator["default"].wrap(function _callee2$(_context2) {
+    return _regenerator["default"].wrap(function (_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
           if (!(error.message.includes("Protocol Error:") || error.message.includes("Target closed."))) {
-            _context2.next = 5;
+            _context2.next = 2;
             break;
           }
-          _context2.next = 3;
+          _context2.next = 1;
           return clientInstance.destroy();
-        case 3:
-          _context2.next = 5;
+        case 1:
+          _context2.next = 2;
           return fs.rmdir("./wwebjs_auth", {
             recursive: true
           });
-        case 5:
+        case 2:
         case "end":
           return _context2.stop();
       }
@@ -119,99 +119,99 @@ clientInstance.on("qr", function (qr) {
   }
 });
 clientInstance.on("disconnected", /*#__PURE__*/(0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee3() {
-  var sessionDir;
-  return _regenerator["default"].wrap(function _callee3$(_context3) {
+  var sessionDir, _t, _t2, _t3;
+  return _regenerator["default"].wrap(function (_context3) {
     while (1) switch (_context3.prev = _context3.next) {
       case 0:
         console.log("Cliente desconectado.");
         clientReady = false;
+        _context3.prev = 1;
         _context3.prev = 2;
         _context3.prev = 3;
-        _context3.prev = 4;
-        _context3.next = 7;
+        _context3.next = 4;
         return clientInstance.destroy();
-      case 7:
+      case 4:
         console.log("Cliente destruido.");
-        _context3.next = 28;
+        _context3.next = 11;
         break;
-      case 10:
-        _context3.prev = 10;
-        _context3.t0 = _context3["catch"](4);
-        if (!(_context3.t0.code === "EBUSY")) {
-          _context3.next = 27;
+      case 5:
+        _context3.prev = 5;
+        _t = _context3["catch"](3);
+        if (!(_t.code === "EBUSY")) {
+          _context3.next = 10;
           break;
         }
         console.warn("Erro EBUSY ao destruir cliente para o usu\xE1rio. Recurso ocupado ou bloqueado.");
         // Aguarda um curto período e tenta novamente
-        _context3.next = 16;
+        _context3.next = 6;
         return new Promise(function (resolve) {
           return setTimeout(resolve, 1000);
         });
-      case 16:
-        _context3.prev = 16;
+      case 6:
+        _context3.prev = 6;
         console.log("Tentando destruir novamente o cliente para o usu\xE1rio ");
-        _context3.next = 20;
+        _context3.next = 7;
         return clientInstance.destroy();
-      case 20:
-        _context3.next = 25;
+      case 7:
+        _context3.next = 9;
         break;
-      case 22:
-        _context3.prev = 22;
-        _context3.t1 = _context3["catch"](16);
-        console.warn("Tentativa final de destruir cliente para o usu\xE1rio  falhou:", _context3.t1);
-      case 25:
-        _context3.next = 28;
+      case 8:
+        _context3.prev = 8;
+        _t2 = _context3["catch"](6);
+        console.warn("Tentativa final de destruir cliente para o usu\xE1rio  falhou:", _t2);
+      case 9:
+        _context3.next = 11;
         break;
-      case 27:
-        console.warn("Erro inesperado ao destruir cliente para o usu\xE1rio ", _context3.t0);
-      case 28:
+      case 10:
+        console.warn("Erro inesperado ao destruir cliente para o usu\xE1rio ", _t);
+      case 11:
         if (!(reason === "NAVIGATION" || reason === "LOGOUT")) {
-          _context3.next = 43;
+          _context3.next = 16;
           break;
         }
         sessionDir = path.join("./wwebjs_auth", "session-session");
         a;
         // Verificar se a pasta existe
-        _context3.next = 33;
+        _context3.next = 12;
         return fs.stat(sessionDir)["catch"](function () {
           return false;
         });
-      case 33:
+      case 12:
         if (!_context3.sent) {
-          _context3.next = 43;
+          _context3.next = 16;
           break;
         }
-        _context3.prev = 34;
-        _context3.next = 37;
+        _context3.prev = 13;
+        _context3.next = 14;
         return fs.rm(sessionDir, {
           recursive: true,
           force: true
         });
-      case 37:
+      case 14:
         console.log("Pasta da sess\xE3o exclu\xEDda com sucesso para o usu\xE1rio ");
-        _context3.next = 43;
+        _context3.next = 16;
         break;
-      case 40:
-        _context3.prev = 40;
-        _context3.t2 = _context3["catch"](34);
-        console.log("Erro ao excluir a pasta da sess\xE3o para o usu\xE1rio  ".concat(_context3.t2.message));
-      case 43:
-        _context3.prev = 43;
-        _context3.next = 46;
+      case 15:
+        _context3.prev = 15;
+        _t3 = _context3["catch"](13);
+        console.log("Erro ao excluir a pasta da sess\xE3o para o usu\xE1rio  ".concat(_t3.message));
+      case 16:
+        _context3.prev = 16;
+        _context3.next = 17;
         return clientInstance.initialize();
-      case 46:
-        return _context3.finish(43);
-      case 47:
-        _context3.prev = 47;
-        _context3.next = 50;
+      case 17:
+        return _context3.finish(16);
+      case 18:
+        _context3.prev = 18;
+        _context3.next = 19;
         return clientInstance.initialize();
-      case 50:
-        return _context3.finish(47);
-      case 51:
+      case 19:
+        return _context3.finish(18);
+      case 20:
       case "end":
         return _context3.stop();
     }
-  }, _callee3, null, [[2,, 47, 51], [3,, 43, 47], [4, 10], [16, 22], [34, 40]]);
+  }, _callee3, null, [[1,, 18, 20], [2,, 16, 18], [3, 5], [6, 8], [13, 15]]);
 })));
 clientInstance.on("error", function (error) {
   console.error("Error in client", error);
@@ -267,58 +267,58 @@ var conectGenerateQR = exports.conectGenerateQR = function conectGenerateQR(req,
 };
 var conectEnviarNotificaciones = exports.conectEnviarNotificaciones = /*#__PURE__*/function () {
   var _ref4 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee4(req, res) {
-    var _req$body, turnos, mensajeBase, _iterator, _step, turno, idTurno, numero, fullPhoneNumber, result, turnoData, formattedDate, mensaje, chatId;
-    return _regenerator["default"].wrap(function _callee4$(_context4) {
+    var _req$body, turnos, mensajeBase, _iterator, _step, turno, idTurno, numero, fullPhoneNumber, result, turnoData, formattedDate, mensaje, chatId, _t4, _t5;
+    return _regenerator["default"].wrap(function (_context4) {
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
           _req$body = req.body, turnos = _req$body.turnos, mensajeBase = _req$body.mensajeBase;
           console.log("Turnos recibidos:", turnos);
           if (!(!turnos || turnos.length === 0)) {
-            _context4.next = 5;
+            _context4.next = 1;
             break;
           }
           console.warn("No se proporcionaron turnos en la solicitud.");
           return _context4.abrupt("return", res.status(400).json({
             message: "Debe proporcionar al menos un turno para enviar mensajes."
           }));
-        case 5:
-          _context4.prev = 5;
+        case 1:
+          _context4.prev = 1;
           // Esperar a que el cliente esté listo antes de enviar los mensajes
           // await ensureClientReady();
           _iterator = _createForOfIteratorHelper(turnos);
-          _context4.prev = 7;
+          _context4.prev = 2;
           _iterator.s();
-        case 9:
+        case 3:
           if ((_step = _iterator.n()).done) {
-            _context4.next = 38;
+            _context4.next = 9;
             break;
           }
           turno = _step.value;
           idTurno = turno.idTurno, numero = turno.numero; // Verificar formato del número
           if (!(!numero || !/^\d+$/.test(numero))) {
-            _context4.next = 16;
+            _context4.next = 4;
             break;
           }
           console.warn("N\xFAmero inv\xE1lido para el turno ".concat(idTurno, ": ").concat(numero));
           console.warn("N\xFAmero inv\xE1lido para el turno ".concat(idTurno, ": ").concat(numero));
-          return _context4.abrupt("continue", 36);
-        case 16:
+          return _context4.abrupt("continue", 8);
+        case 4:
           // Construir el número completo con el código de país desde la variable de entorno
           fullPhoneNumber = "".concat(process.env.COUNTRY_CODE).concat(numero);
           console.log("N\xFAmero de tel\xE9fono completo: ".concat(fullPhoneNumber));
 
           // Consultar detalles del turno desde la base de datos
-          _context4.next = 20;
+          _context4.next = 5;
           return _keys["default"].query("SELECT t.id_turno, p.nombre AS paciente, c.nombre AS consultorio, \n                tr.nombre AS tratamiento, t.fecha, t.hora \n         FROM turnos t \n         JOIN pacientes p ON t.id_paciente = p.id_paciente \n         JOIN consultorios c ON t.id_consultorio = c.id_consultorio \n         JOIN tratamientos tr ON t.id_tratamiento = tr.id_tratamiento \n         WHERE t.id_turno = $1", [idTurno]);
-        case 20:
+        case 5:
           result = _context4.sent;
           if (!(result.rows.length === 0)) {
-            _context4.next = 24;
+            _context4.next = 6;
             break;
           }
           console.warn("Turno no encontrado: ".concat(idTurno));
-          return _context4.abrupt("continue", 36);
-        case 24:
+          return _context4.abrupt("continue", 8);
+        case 6:
           turnoData = result.rows[0];
           console.log("Datos del turno: ".concat(JSON.stringify(turnoData)));
 
@@ -333,43 +333,43 @@ var conectEnviarNotificaciones = exports.conectEnviarNotificaciones = /*#__PURE_
           // Enviar mensaje por WhatsApp
           chatId = "".concat(fullPhoneNumber, "@c.us");
           console.log("Estado del cliente antes de enviar mensaje:", clientInstance.info);
-          _context4.next = 35;
+          _context4.next = 7;
           return clientInstance.sendMessage(chatId, mensaje);
-        case 35:
+        case 7:
           console.log("Mensaje enviado al n\xFAmero: ".concat(fullPhoneNumber));
-        case 36:
-          _context4.next = 9;
+        case 8:
+          _context4.next = 3;
           break;
-        case 38:
-          _context4.next = 43;
+        case 9:
+          _context4.next = 11;
           break;
-        case 40:
-          _context4.prev = 40;
-          _context4.t0 = _context4["catch"](7);
-          _iterator.e(_context4.t0);
-        case 43:
-          _context4.prev = 43;
+        case 10:
+          _context4.prev = 10;
+          _t4 = _context4["catch"](2);
+          _iterator.e(_t4);
+        case 11:
+          _context4.prev = 11;
           _iterator.f();
-          return _context4.finish(43);
-        case 46:
+          return _context4.finish(11);
+        case 12:
           res.status(200).json({
             message: "Mensajes enviados con éxito."
           });
-          _context4.next = 53;
+          _context4.next = 14;
           break;
-        case 49:
-          _context4.prev = 49;
-          _context4.t1 = _context4["catch"](5);
-          console.error("Error al enviar mensajes:", _context4.t1);
+        case 13:
+          _context4.prev = 13;
+          _t5 = _context4["catch"](1);
+          console.error("Error al enviar mensajes:", _t5);
           res.status(500).json({
             message: "Error al enviar los mensajes.",
-            error: _context4.t1.message
+            error: _t5.message
           });
-        case 53:
+        case 14:
         case "end":
           return _context4.stop();
       }
-    }, _callee4, null, [[5, 49], [7, 40, 43, 46]]);
+    }, _callee4, null, [[1, 13], [2, 10, 11, 12]]);
   }));
   return function conectEnviarNotificaciones(_x3, _x4) {
     return _ref4.apply(this, arguments);

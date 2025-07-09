@@ -23,34 +23,34 @@ var AdminPacientes = {};
 // Crear un paciente
 AdminPacientes.CrearPaciente = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee(req, res) {
-    var _req$body, nombre, apellido, fecha_nacimiento, genero, telefono, email, direccion;
-    return _regenerator["default"].wrap(function _callee$(_context) {
+    var _req$body, nombre, apellido, fecha_nacimiento, genero, telefono, email, direccion, _t;
+    return _regenerator["default"].wrap(function (_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           _req$body = req.body, nombre = _req$body.nombre, apellido = _req$body.apellido, fecha_nacimiento = _req$body.fecha_nacimiento, genero = _req$body.genero, telefono = _req$body.telefono, email = _req$body.email, direccion = _req$body.direccion;
           _context.prev = 1;
-          _context.next = 4;
+          _context.next = 2;
           return _keys["default"].query('INSERT INTO pacientes(nombre, apellido, fecha_nacimiento, genero, telefono, email, direccion) VALUES ($1, $2, $3, $4, $5, $6, $7)', [nombre, apellido, fecha_nacimiento, genero, telefono, email, direccion]);
-        case 4:
+        case 2:
           // Respuesta exitosa
           res.status(200).json({
             message: 'Paciente creado exitosamente'
           });
-          _context.next = 11;
+          _context.next = 4;
           break;
-        case 7:
-          _context.prev = 7;
-          _context.t0 = _context["catch"](1);
-          console.log('Error al insertar', _context.t0);
+        case 3:
+          _context.prev = 3;
+          _t = _context["catch"](1);
+          console.log('Error al insertar', _t);
           res.status(500).json({
             message: 'An error has occurred',
-            error: _context.t0
+            error: _t
           });
-        case 11:
+        case 4:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[1, 7]]);
+    }, _callee, null, [[1, 3]]);
   }));
   return function (_x, _x2) {
     return _ref.apply(this, arguments);
@@ -60,14 +60,14 @@ AdminPacientes.CrearPaciente = /*#__PURE__*/function () {
 // Obtener todos los pacientes
 AdminPacientes.ObtenerPacientes = /*#__PURE__*/function () {
   var _ref2 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee2(req, res) {
-    var result, pacientesFormateados;
-    return _regenerator["default"].wrap(function _callee2$(_context2) {
+    var result, pacientesFormateados, _t2;
+    return _regenerator["default"].wrap(function (_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
           _context2.prev = 0;
-          _context2.next = 3;
+          _context2.next = 1;
           return _keys["default"].query('SELECT * FROM pacientes');
-        case 3:
+        case 1:
           result = _context2.sent;
           // Consulta para obtener todos los pacientes
           // Formatear las fechas de los pacientes antes de enviarlos
@@ -77,21 +77,21 @@ AdminPacientes.ObtenerPacientes = /*#__PURE__*/function () {
             });
           }); // Enviar los datos formateados al frontend
           res.status(200).json(pacientesFormateados);
-          _context2.next = 12;
+          _context2.next = 3;
           break;
-        case 8:
-          _context2.prev = 8;
-          _context2.t0 = _context2["catch"](0);
-          console.error('Error al obtener pacientes:', _context2.t0);
+        case 2:
+          _context2.prev = 2;
+          _t2 = _context2["catch"](0);
+          console.error('Error al obtener pacientes:', _t2);
           res.status(500).json({
             message: 'An error has occurred',
-            error: _context2.t0
+            error: _t2
           });
-        case 12:
+        case 3:
         case "end":
           return _context2.stop();
       }
-    }, _callee2, null, [[0, 8]]);
+    }, _callee2, null, [[0, 2]]);
   }));
   return function (_x3, _x4) {
     return _ref2.apply(this, arguments);
@@ -99,33 +99,33 @@ AdminPacientes.ObtenerPacientes = /*#__PURE__*/function () {
 }();
 AdminPacientes.DeletePacientes = /*#__PURE__*/function () {
   var _ref3 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
-    var id;
-    return _regenerator["default"].wrap(function _callee3$(_context3) {
+    var id, _t3;
+    return _regenerator["default"].wrap(function (_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
           id = req.params.id_paciente;
           _context3.prev = 1;
-          _context3.next = 4;
+          _context3.next = 2;
           return _keys["default"].query('DELETE FROM pacientes WHERE id_paciente = $1', [id]);
-        case 4:
+        case 2:
           res.status(200).json({
             message: 'El paciente se eliminó correctamente'
           });
-          _context3.next = 11;
+          _context3.next = 4;
           break;
-        case 7:
-          _context3.prev = 7;
-          _context3.t0 = _context3["catch"](1);
-          console.error('Error al eliminar el turno:', _context3.t0);
+        case 3:
+          _context3.prev = 3;
+          _t3 = _context3["catch"](1);
+          console.error('Error al eliminar el turno:', _t3);
           res.status(500).json({
             message: 'Error interno del servidor',
-            error: _context3.t0
+            error: _t3
           });
-        case 11:
+        case 4:
         case "end":
           return _context3.stop();
       }
-    }, _callee3, null, [[1, 7]]);
+    }, _callee3, null, [[1, 3]]);
   }));
   return function (_x5, _x6) {
     return _ref3.apply(this, arguments);

@@ -13,30 +13,30 @@ function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) 
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 var getConsultorios = exports.getConsultorios = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee(req, res) {
-    var result;
-    return _regenerator["default"].wrap(function _callee$(_context) {
+    var result, _t;
+    return _regenerator["default"].wrap(function (_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          _context.next = 3;
+          _context.next = 1;
           return _keys["default"].query("SELECT * FROM consultorios");
-        case 3:
+        case 1:
           result = _context.sent;
           res.status(200).json(result.rows);
-          _context.next = 10;
+          _context.next = 3;
           break;
-        case 7:
-          _context.prev = 7;
-          _context.t0 = _context["catch"](0);
+        case 2:
+          _context.prev = 2;
+          _t = _context["catch"](0);
           res.status(500).json({
             message: "Error al obtener consultorios",
-            error: _context.t0.message
+            error: _t.message
           });
-        case 10:
+        case 3:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[0, 7]]);
+    }, _callee, null, [[0, 2]]);
   }));
   return function getConsultorios(_x, _x2) {
     return _ref.apply(this, arguments);
@@ -44,30 +44,30 @@ var getConsultorios = exports.getConsultorios = /*#__PURE__*/function () {
 }();
 var getConsultorioTratamiento = exports.getConsultorioTratamiento = /*#__PURE__*/function () {
   var _ref2 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee2(req, res) {
-    var result;
-    return _regenerator["default"].wrap(function _callee2$(_context2) {
+    var result, _t2;
+    return _regenerator["default"].wrap(function (_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
           _context2.prev = 0;
-          _context2.next = 3;
+          _context2.next = 1;
           return _keys["default"].query("SELECT * FROM consultorio_tratamiento");
-        case 3:
+        case 1:
           result = _context2.sent;
           res.status(200).json(result.rows);
-          _context2.next = 10;
+          _context2.next = 3;
           break;
-        case 7:
-          _context2.prev = 7;
-          _context2.t0 = _context2["catch"](0);
+        case 2:
+          _context2.prev = 2;
+          _t2 = _context2["catch"](0);
           res.status(500).json({
             message: "Error al obtener consultorios",
-            error: _context2.t0.message
+            error: _t2.message
           });
-        case 10:
+        case 3:
         case "end":
           return _context2.stop();
       }
-    }, _callee2, null, [[0, 7]]);
+    }, _callee2, null, [[0, 2]]);
   }));
   return function getConsultorioTratamiento(_x3, _x4) {
     return _ref2.apply(this, arguments);
@@ -75,30 +75,30 @@ var getConsultorioTratamiento = exports.getConsultorioTratamiento = /*#__PURE__*
 }();
 var deleteConsultorioTratamiento = exports.deleteConsultorioTratamiento = /*#__PURE__*/function () {
   var _ref3 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
-    var result;
-    return _regenerator["default"].wrap(function _callee3$(_context3) {
+    var result, _t3;
+    return _regenerator["default"].wrap(function (_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
           _context3.prev = 0;
-          _context3.next = 3;
+          _context3.next = 1;
           return _keys["default"].query("DELETE FROM consultorio_tratamiento WHERE id_consultorio = $1", [req.params.id_consultorio]);
-        case 3:
+        case 1:
           result = _context3.sent;
           res.status(200).json(result.rows);
-          _context3.next = 10;
+          _context3.next = 3;
           break;
-        case 7:
-          _context3.prev = 7;
-          _context3.t0 = _context3["catch"](0);
+        case 2:
+          _context3.prev = 2;
+          _t3 = _context3["catch"](0);
           res.status(500).json({
             message: "Error al obtener consultorios",
-            error: _context3.t0.message
+            error: _t3.message
           });
-        case 10:
+        case 3:
         case "end":
           return _context3.stop();
       }
-    }, _callee3, null, [[0, 7]]);
+    }, _callee3, null, [[0, 2]]);
   }));
   return function deleteConsultorioTratamiento(_x5, _x6) {
     return _ref3.apply(this, arguments);
@@ -128,31 +128,31 @@ var deleteConsultorioTratamiento = exports.deleteConsultorioTratamiento = /*#__P
 
 var getConsultoriosConTratamientos = exports.getConsultoriosConTratamientos = /*#__PURE__*/function () {
   var _ref4 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee4(req, res) {
-    var result;
-    return _regenerator["default"].wrap(function _callee4$(_context4) {
+    var result, _t4;
+    return _regenerator["default"].wrap(function (_context4) {
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
           _context4.prev = 0;
-          _context4.next = 3;
+          _context4.next = 1;
           return _keys["default"].query("\n      SELECT \n        c.id_consultorio,\n        c.nombre AS nombre_consultorio,\n        COALESCE(\n          json_agg(\n            json_build_object(\n              'id_tratamiento', t.id_tratamiento,\n              'nombre', t.nombre,\n              'descripcion', t.descripcion,\n              'duracion', t.duracion,\n              'color', t.color,\n              'costo', t.costo\n            )\n          ) FILTER (WHERE t.id_tratamiento IS NOT NULL), '[]'\n        ) AS tratamientos\n      FROM \n        consultorios c\n      LEFT JOIN \n        consultorio_tratamiento ct ON c.id_consultorio = ct.id_consultorio\n      LEFT JOIN \n        tratamientos t ON ct.id_tratamiento = t.id_tratamiento\n      GROUP BY \n        c.id_consultorio, c.nombre;\n    ");
-        case 3:
+        case 1:
           result = _context4.sent;
           res.status(200).json(result.rows);
-          _context4.next = 11;
+          _context4.next = 3;
           break;
-        case 7:
-          _context4.prev = 7;
-          _context4.t0 = _context4["catch"](0);
-          console.error("Error al obtener consultorios y tratamientos:", _context4.t0.message);
+        case 2:
+          _context4.prev = 2;
+          _t4 = _context4["catch"](0);
+          console.error("Error al obtener consultorios y tratamientos:", _t4.message);
           res.status(500).json({
             message: "Error al obtener consultorios y tratamientos",
-            error: _context4.t0.message
+            error: _t4.message
           });
-        case 11:
+        case 3:
         case "end":
           return _context4.stop();
       }
-    }, _callee4, null, [[0, 7]]);
+    }, _callee4, null, [[0, 2]]);
   }));
   return function getConsultoriosConTratamientos(_x7, _x8) {
     return _ref4.apply(this, arguments);
@@ -160,48 +160,48 @@ var getConsultoriosConTratamientos = exports.getConsultoriosConTratamientos = /*
 }();
 var getConsultorioById = exports.getConsultorioById = /*#__PURE__*/function () {
   var _ref5 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee5(req, res) {
-    var id, result;
-    return _regenerator["default"].wrap(function _callee5$(_context5) {
+    var id, result, _t5;
+    return _regenerator["default"].wrap(function (_context5) {
       while (1) switch (_context5.prev = _context5.next) {
         case 0:
           id = req.params.id_consultorio;
           _context5.prev = 1;
-          _context5.next = 4;
+          _context5.next = 2;
           return _keys["default"].query("SELECT * FROM consultorios WHERE id_consultorio = $1", [id]);
-        case 4:
+        case 2:
           result = _context5.sent;
           res.status(200).json(result.rows);
-          _context5.next = 11;
+          _context5.next = 4;
           break;
-        case 8:
-          _context5.prev = 8;
-          _context5.t0 = _context5["catch"](1);
+        case 3:
+          _context5.prev = 3;
+          _t5 = _context5["catch"](1);
           res.status(500).json({
             message: "Error al obtener consultorio",
-            error: _context5.t0.message
+            error: _t5.message
           });
-        case 11:
+        case 4:
         case "end":
           return _context5.stop();
       }
-    }, _callee5, null, [[1, 8]]);
+    }, _callee5, null, [[1, 3]]);
   }));
-  return function getConsultorioById(_x9, _x10) {
+  return function getConsultorioById(_x9, _x0) {
     return _ref5.apply(this, arguments);
   };
 }();
 var createConsultorio = exports.createConsultorio = /*#__PURE__*/function () {
   var _ref6 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee6(req, res) {
-    var _req$body, nombre, tratamientos, result, id_consultorio, _iterator, _step, id_tratamiento, tratamientoId;
-    return _regenerator["default"].wrap(function _callee6$(_context6) {
+    var _req$body, nombre, tratamientos, result, id_consultorio, _iterator, _step, id_tratamiento, tratamientoId, _t6, _t7;
+    return _regenerator["default"].wrap(function (_context6) {
       while (1) switch (_context6.prev = _context6.next) {
         case 0:
           _req$body = req.body, nombre = _req$body.nombre, tratamientos = _req$body.tratamientos;
           console.log("Datos recibidos:", nombre, tratamientos); // <-- Agrega esto
-          _context6.prev = 2;
-          _context6.next = 5;
+          _context6.prev = 1;
+          _context6.next = 2;
           return _keys["default"].query("INSERT INTO consultorios (nombre) VALUES ($1) RETURNING id_consultorio", [nombre]);
-        case 5:
+        case 2:
           result = _context6.sent;
           id_consultorio = result.rows[0].id_consultorio; // Asegúrate que 'tratamiento' no sea undefined o null antes de insertar
           // if (!tratamiento) {
@@ -213,235 +213,235 @@ var createConsultorio = exports.createConsultorio = /*#__PURE__*/function () {
           // );
           // Si hay tratamientos seleccionados, inserta las nuevas relaciones
           if (!(tratamientos && tratamientos.length > 0)) {
-            _context6.next = 29;
+            _context6.next = 10;
             break;
           }
           _iterator = _createForOfIteratorHelper(tratamientos);
-          _context6.prev = 9;
+          _context6.prev = 3;
           _iterator.s();
-        case 11:
+        case 4:
           if ((_step = _iterator.n()).done) {
-            _context6.next = 21;
+            _context6.next = 7;
             break;
           }
           id_tratamiento = _step.value;
           tratamientoId = parseInt(id_tratamiento, 10); // Convierte el ID a un número entero
           if (!isNaN(tratamientoId)) {
-            _context6.next = 17;
+            _context6.next = 5;
             break;
           }
           console.error("ID de tratamiento inv\xE1lido: ".concat(id_tratamiento));
-          return _context6.abrupt("continue", 19);
-        case 17:
-          _context6.next = 19;
+          return _context6.abrupt("continue", 6);
+        case 5:
+          _context6.next = 6;
           return _keys["default"].query("INSERT INTO consultorio_tratamiento (id_consultorio, id_tratamiento) VALUES ($1, $2)", [id_consultorio, tratamientoId] // Usa el ID convertido
           );
-        case 19:
-          _context6.next = 11;
+        case 6:
+          _context6.next = 4;
           break;
-        case 21:
-          _context6.next = 26;
+        case 7:
+          _context6.next = 9;
           break;
-        case 23:
-          _context6.prev = 23;
-          _context6.t0 = _context6["catch"](9);
-          _iterator.e(_context6.t0);
-        case 26:
-          _context6.prev = 26;
+        case 8:
+          _context6.prev = 8;
+          _t6 = _context6["catch"](3);
+          _iterator.e(_t6);
+        case 9:
+          _context6.prev = 9;
           _iterator.f();
-          return _context6.finish(26);
-        case 29:
+          return _context6.finish(9);
+        case 10:
           res.status(201).json({
             message: "Consultorio creado con éxito"
           });
-          _context6.next = 36;
+          _context6.next = 12;
           break;
-        case 32:
-          _context6.prev = 32;
-          _context6.t1 = _context6["catch"](2);
-          console.error("Error en el servidor:", _context6.t1.message); // <-- Muestra el error en la consola
+        case 11:
+          _context6.prev = 11;
+          _t7 = _context6["catch"](1);
+          console.error("Error en el servidor:", _t7.message); // <-- Muestra el error en la consola
           res.status(500).json({
             message: "Error al crear el consultorio",
-            error: _context6.t1.message
+            error: _t7.message
           });
-        case 36:
+        case 12:
         case "end":
           return _context6.stop();
       }
-    }, _callee6, null, [[2, 32], [9, 23, 26, 29]]);
+    }, _callee6, null, [[1, 11], [3, 8, 9, 10]]);
   }));
-  return function createConsultorio(_x11, _x12) {
+  return function createConsultorio(_x1, _x10) {
     return _ref6.apply(this, arguments);
   };
 }();
 var updateConsultorio = exports.updateConsultorio = /*#__PURE__*/function () {
   var _ref7 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee7(req, res) {
-    var id_consultorio, _req$body2, nombre, tratamientos, turnosResult, tratamientosConTurnos, result, _iterator2, _step2, id_tratamiento, tratamientoId, existResult;
-    return _regenerator["default"].wrap(function _callee7$(_context7) {
+    var id_consultorio, _req$body2, nombre, tratamientos, turnosResult, tratamientosConTurnos, result, _iterator2, _step2, id_tratamiento, tratamientoId, existResult, _t8, _t9;
+    return _regenerator["default"].wrap(function (_context7) {
       while (1) switch (_context7.prev = _context7.next) {
         case 0:
           id_consultorio = req.params.id_consultorio;
           _req$body2 = req.body, nombre = _req$body2.nombre, tratamientos = _req$body2.tratamientos;
           console.log("Datos recibidos:", id_consultorio, nombre, tratamientos);
-          _context7.prev = 3;
-          _context7.next = 6;
+          _context7.prev = 1;
+          _context7.next = 2;
           return _keys["default"].query("SELECT id_consultorio_tratamiento, id_tratamiento FROM consultorio_tratamiento \n       WHERE id_consultorio = $1 AND id_consultorio_tratamiento IN (\n         SELECT id_consultorio_tratamiento FROM turnos\n       )", [id_consultorio]);
-        case 6:
+        case 2:
           turnosResult = _context7.sent;
           tratamientosConTurnos = turnosResult.rows.map(function (row) {
             return row.id_tratamiento;
           }); // Actualizar el nombre del consultorio
-          _context7.next = 10;
+          _context7.next = 3;
           return _keys["default"].query("UPDATE consultorios SET nombre = $1 WHERE id_consultorio = $2 RETURNING *", [nombre, id_consultorio]);
-        case 10:
+        case 3:
           result = _context7.sent;
           if (!(result.rowCount === 0)) {
-            _context7.next = 13;
+            _context7.next = 4;
             break;
           }
           return _context7.abrupt("return", res.status(404).json({
             message: "Consultorio no encontrado"
           }));
-        case 13:
-          _context7.next = 15;
+        case 4:
+          _context7.next = 5;
           return _keys["default"].query("DELETE FROM consultorio_tratamiento \n       WHERE id_consultorio = $1 AND id_tratamiento NOT IN (\n         SELECT id_tratamiento FROM turnos \n         INNER JOIN consultorio_tratamiento USING (id_consultorio_tratamiento)\n       )", [id_consultorio]);
-        case 15:
+        case 5:
           if (!(tratamientos && tratamientos.length > 0)) {
-            _context7.next = 43;
+            _context7.next = 15;
             break;
           }
           _iterator2 = _createForOfIteratorHelper(tratamientos);
-          _context7.prev = 17;
+          _context7.prev = 6;
           _iterator2.s();
-        case 19:
+        case 7:
           if ((_step2 = _iterator2.n()).done) {
-            _context7.next = 35;
+            _context7.next = 12;
             break;
           }
           id_tratamiento = _step2.value;
           tratamientoId = parseInt(id_tratamiento, 10);
           if (!isNaN(tratamientoId)) {
-            _context7.next = 25;
+            _context7.next = 8;
             break;
           }
           console.error("ID de tratamiento inv\xE1lido: ".concat(id_tratamiento));
-          return _context7.abrupt("continue", 33);
-        case 25:
-          _context7.next = 27;
+          return _context7.abrupt("continue", 11);
+        case 8:
+          _context7.next = 9;
           return _keys["default"].query("SELECT 1 FROM consultorio_tratamiento \n           WHERE id_consultorio = $1 AND id_tratamiento = $2", [id_consultorio, tratamientoId]);
-        case 27:
+        case 9:
           existResult = _context7.sent;
           if (!(existResult.rowCount > 0)) {
-            _context7.next = 31;
+            _context7.next = 10;
             break;
           }
           console.log("La relaci\xF3n consultorio ".concat(id_consultorio, " - tratamiento ").concat(tratamientoId, " ya existe"));
-          return _context7.abrupt("continue", 33);
-        case 31:
-          _context7.next = 33;
+          return _context7.abrupt("continue", 11);
+        case 10:
+          _context7.next = 11;
           return _keys["default"].query("INSERT INTO consultorio_tratamiento (id_consultorio, id_tratamiento) \n           VALUES ($1, $2)", [id_consultorio, tratamientoId]);
-        case 33:
-          _context7.next = 19;
+        case 11:
+          _context7.next = 7;
           break;
-        case 35:
-          _context7.next = 40;
+        case 12:
+          _context7.next = 14;
           break;
-        case 37:
-          _context7.prev = 37;
-          _context7.t0 = _context7["catch"](17);
-          _iterator2.e(_context7.t0);
-        case 40:
-          _context7.prev = 40;
+        case 13:
+          _context7.prev = 13;
+          _t8 = _context7["catch"](6);
+          _iterator2.e(_t8);
+        case 14:
+          _context7.prev = 14;
           _iterator2.f();
-          return _context7.finish(40);
-        case 43:
+          return _context7.finish(14);
+        case 15:
           res.status(200).json({
             message: "Consultorio actualizado con éxito"
           });
-          _context7.next = 50;
+          _context7.next = 17;
           break;
-        case 46:
-          _context7.prev = 46;
-          _context7.t1 = _context7["catch"](3);
-          console.error("Error al actualizar el consultorio:", _context7.t1.message);
+        case 16:
+          _context7.prev = 16;
+          _t9 = _context7["catch"](1);
+          console.error("Error al actualizar el consultorio:", _t9.message);
           res.status(500).json({
             message: "Error al actualizar el consultorio",
-            error: _context7.t1.message
+            error: _t9.message
           });
-        case 50:
+        case 17:
         case "end":
           return _context7.stop();
       }
-    }, _callee7, null, [[3, 46], [17, 37, 40, 43]]);
+    }, _callee7, null, [[1, 16], [6, 13, 14, 15]]);
   }));
-  return function updateConsultorio(_x13, _x14) {
+  return function updateConsultorio(_x11, _x12) {
     return _ref7.apply(this, arguments);
   };
 }();
 var deleteConsultorio = exports.deleteConsultorio = /*#__PURE__*/function () {
   var _ref8 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee8(req, res) {
-    var id_consultorio, consultorioTratamientoResult, turnosResult, consultorioResult;
-    return _regenerator["default"].wrap(function _callee8$(_context8) {
+    var id_consultorio, consultorioTratamientoResult, turnosResult, consultorioResult, _t0;
+    return _regenerator["default"].wrap(function (_context8) {
       while (1) switch (_context8.prev = _context8.next) {
         case 0:
           id_consultorio = req.params.id_consultorio; // ID del consultorio a eliminar
           _context8.prev = 1;
-          _context8.next = 4;
+          _context8.next = 2;
           return _keys["default"].query("SELECT * FROM consultorio_tratamiento WHERE id_consultorio = $1", [id_consultorio]);
-        case 4:
+        case 2:
           consultorioTratamientoResult = _context8.sent;
           if (!(consultorioTratamientoResult.rows.length > 0)) {
-            _context8.next = 7;
+            _context8.next = 3;
             break;
           }
           return _context8.abrupt("return", res.status(400).json({
             message: "El consultorio no puede ser eliminado ya que tiene tratamientos asociados"
           }));
-        case 7:
-          _context8.next = 9;
+        case 3:
+          _context8.next = 4;
           return _keys["default"].query("SELECT * FROM turnos WHERE id_consultorio_tratamiento IN (\n        SELECT id_consultorio_tratamiento FROM consultorio_tratamiento WHERE id_consultorio = $1\n      )", [id_consultorio]);
-        case 9:
+        case 4:
           turnosResult = _context8.sent;
           if (!(turnosResult.rows.length > 0)) {
-            _context8.next = 12;
+            _context8.next = 5;
             break;
           }
           return _context8.abrupt("return", res.status(400).json({
             message: "El consultorio no puede ser eliminado ya que tiene turnos asignados"
           }));
-        case 12:
-          _context8.next = 14;
+        case 5:
+          _context8.next = 6;
           return _keys["default"].query("DELETE FROM consultorios WHERE id_consultorio = $1 RETURNING *", [id_consultorio]);
-        case 14:
+        case 6:
           consultorioResult = _context8.sent;
           if (!(consultorioResult.rowCount === 0)) {
-            _context8.next = 17;
+            _context8.next = 7;
             break;
           }
           return _context8.abrupt("return", res.status(404).json({
             message: "Consultorio no encontrado"
           }));
-        case 17:
+        case 7:
           res.status(200).json({
             message: "Consultorio eliminado con éxito"
           });
-          _context8.next = 24;
+          _context8.next = 9;
           break;
-        case 20:
-          _context8.prev = 20;
-          _context8.t0 = _context8["catch"](1);
-          console.error("Error al eliminar el consultorio:", _context8.t0.message);
+        case 8:
+          _context8.prev = 8;
+          _t0 = _context8["catch"](1);
+          console.error("Error al eliminar el consultorio:", _t0.message);
           res.status(500).json({
             message: "Error al eliminar el consultorio",
-            error: _context8.t0.message
+            error: _t0.message
           });
-        case 24:
+        case 9:
         case "end":
           return _context8.stop();
       }
-    }, _callee8, null, [[1, 20]]);
+    }, _callee8, null, [[1, 8]]);
   }));
-  return function deleteConsultorio(_x15, _x16) {
+  return function deleteConsultorio(_x13, _x14) {
     return _ref8.apply(this, arguments);
   };
 }();

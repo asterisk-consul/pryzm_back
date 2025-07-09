@@ -1,10 +1,15 @@
-// src/routes/caja.routes.js
-import { Router } from "express";
-import { getVistaCaja } from "../caja/cajaControllers";
- // asegurate que esté bien resuelto el alias
-
+import { Router } from 'express';
+import {
+  crearCaja,
+  abrirCaja,
+  registrarMovimiento,
+  historial,
+} from '@caja/cajaController'
 const router = Router();
 
-router.get("/", getVistaCaja); // Esto responde a /caja/ desde el archivo principal
+router.post('/abrir', abrirCaja);
+router.post('/movimiento', registrarMovimiento);
+router.post('/nuevaCaja', crearCaja)
+router.get('/historial/:caja_id', historial);
 
 export default router;

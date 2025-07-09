@@ -8,11 +8,11 @@
     "babel": "nodemon src/app.js --exec babel-node",
     "build": "babel src -d dist --ignore node_modules",
     "start": "node dist/app.js",
-    "pm2:start": "pm2 start dist/app.js --name 'mi-backend'",
-    "pm2:restart": "pm2 restart mi-backend",
-    "pm2:stop": "pm2 stop mi-backend",
-    "pm2:logs": "pm2 logs mi-backend",
-    "pm2:status": "pm2 status mi-backend",
+    "pm2:start": "pm2 start dist/app.js --name 'mi-backend-dev'",
+    "pm2:restart": "pm2 restart mi-backend-dev",
+    "pm2:stop": "pm2 stop mi-backend-dev",
+    "pm2:logs": "pm2 logs mi-backend-dev",
+    "pm2:status": "pm2 status mi-backend-dev",
     "pm2:monit": "pm2 monit"
   },
   "keywords": [],
@@ -44,6 +44,8 @@
     "@babel/plugin-transform-runtime": "^7.26.9",
     "@babel/preset-env": "^7.26.8",
     "babel-plugin-module-resolver": "^5.0.2",
+    "cross-env": "^7.0.3",
+    "jest": "^30.0.3",
     "nodemon": "^3.1.9"
   },
   "_moduleAliases": {
@@ -53,6 +55,12 @@
     "@pacientes": "./dist/components/pacientes",
     "@whatsapp": "./dist/components/whatsapp",
     "@tratamientos": "./dist/components/tratamientos",
-    "@caja": "./dist/components/caja"
+    "@caja": "./dist/components/caja",
+    "@ventas": "./dist/components/ventas",
+    "@services": "./dist/services",
+    "@articulos": "./dist/components/articulos",
+    "@perfil": "./dist/components/perfiles",
+    "@ubicaciones": "./dist/components/ubicacion",
+    "@contactos": "./dist/components/contactos"
   }
 }
