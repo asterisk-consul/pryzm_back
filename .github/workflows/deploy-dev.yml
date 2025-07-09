@@ -15,48 +15,59 @@ jobs:
 
       - name: Install dependencies
         run: |
-          echo "Instalando todas las dependencias para el build"
+          echo "Instalando dependencias para build..."
           npm ci
 
       - name: Build project
         run: |
-          echo "Haciendo build del proyecto"
+          echo "Generando build del proyecto..."
           npm run build
 
       - name: Clean up node_modules for production
         run: |
-          echo "Instalando solo dependencias de producción"
+          echo "Dejando solo dependencias de producción..."
           npm prune --production
 
-      - name: Create deploy package
+      - name: Prepare deploy package
         run: |
-          echo "Creando paquete de despliegue"
-          tar czf deploy.tar.gz dist package.json package-lock.json node_modules
+          echo "Preparando paquete limpio de despliegue..."
+          mkdir deploy
+          mv dist deploy/dist
+          mv node_modules deploy/node
+          cp package.json deploy/
+          cp package-lock.json deploy/
+
+          tar czf deploy.tar.gz -C deploy .
 
       - name: Add SSH key
         run: |
           echo "${{ secrets.VPS_SSH_KEY }}" > private_key.pem
           chmod 600 private_key.pem
 
-      - name: Copy package to VPS
+      - name: Upload deploy package
         run: |
-          echo "Copiando paquete al VPS..."
+          echo "Subiendo deploy.tar.gz al VPS..."
           scp -i private_key.pem -o StrictHostKeyChecking=no deploy.tar.gz ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PATH }}
 
-      - name: Extract and restart on VPS
+      - name: Deploy on VPS
         run: |
-          echo "Extrayendo paquete y reiniciando PM2 en el VPS..."
+          echo "Desplegando en el VPS..."
           ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
             cd ${{ secrets.VPS_PATH }}
-            echo "Extrayendo paquete"
+
+            echo "Limpiando archivos antiguos (excepto .env)..."
+            find . -maxdepth 1 ! -name '.env' ! -name '.' -exec rm -rf {} \;
+
+            echo "Extrayendo nuevo paquete..."
             tar xzf deploy.tar.gz
             rm deploy.tar.gz
 
-            echo "Reiniciando PM2"
+            echo "Reiniciando PM2..."
             if pm2 describe mi-backend-dev > /dev/null; then
               pm2 restart mi-backend-dev
             else
               npm run pm2:start
             fi
-            echo "Deploy exitoso"
+
+            echo "Deploy completado correctamente ✅"
           EOF
