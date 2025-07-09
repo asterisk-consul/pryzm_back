@@ -33,18 +33,20 @@ jobs:
           echo "Creando paquete de despliegue"
           tar czf deploy.tar.gz dist package.json package-lock.json node_modules
 
+      - name: Add SSH key
+        run: |
+          echo "${{ secrets.VPS_SSH_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+
       - name: Copy package to VPS
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          source: deploy.tar.gz
-          target: ${{ secrets.VPS_PATH }}
+        run: |
+          echo "Copiando paquete al VPS..."
+          scp -i private_key.pem -o StrictHostKeyChecking=no deploy.tar.gz ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PATH }}
 
       - name: Extract and restart on VPS
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+          echo "Extrayendo paquete y reiniciando PM2 en el VPS..."
+          ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
             cd ${{ secrets.VPS_PATH }}
             echo "Extrayendo paquete"
             tar xzf deploy.tar.gz
