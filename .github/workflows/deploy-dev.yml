@@ -13,56 +13,46 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
-
-      - name: Deploy to VPS with rollback
+      - name: Install dependencies
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} bash -e <<'EOF'
+          echo "Instalando todas las dependencias para el build"
+          npm ci
+
+      - name: Build project
+        run: |
+          echo "Haciendo build del proyecto"
+          npm run build
+
+      - name: Clean up node_modules for production
+        run: |
+          echo "Instalando solo dependencias de producción"
+          npm prune --production
+
+      - name: Copy files to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          source: |
+            dist
+            package.json
+            package-lock.json
+            .env
+            node_modules
+          target: ${{ secrets.VPS_PATH }}
+          strip_components: 0
+
+      - name: Restart PM2 on VPS
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} <<'EOF'
             cd ${{ secrets.VPS_PATH }}
 
-            echo "Guardando commit actual"
-            OLD_COMMIT=$(git rev-parse HEAD)
-
-            echo "Actualizando repo"
-            git fetch origin
-            git reset --hard origin/dev
-
-            echo "Instalando dependencias"
-            if [ -f package-lock.json ]; then
-              npm ci --production
-            else
-              npm install --production
-            fi
-
-            echo "Build"
-            npm run build
-
-            echo "Reiniciando pm2"
+            echo "Reiniciando PM2"
             if pm2 describe mi-backend-dev > /dev/null; then
               pm2 restart mi-backend-dev
             else
               npm run pm2:start
             fi
-
             echo "Deploy exitoso"
-            exit 0
-
-            EOF
-
-        # Si falla el bloque anterior, ejecutamos rollback
-        continue-on-error: false
-
-      - name: Rollback en VPS si falla deploy
-        if: failure()
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} bash <<'EOF'
-            cd ${{ secrets.VPS_PATH }}
-            echo "Haciendo rollback al commit previo"
-            git reset --hard $OLD_COMMIT
-            npm run build
-            pm2 restart mi-backend-dev || npm run pm2:start
-            echo "Rollback completado"
           EOF
