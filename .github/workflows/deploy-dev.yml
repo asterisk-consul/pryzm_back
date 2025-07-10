@@ -55,12 +55,19 @@ jobs:
           ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
             cd ${{ secrets.VPS_PATH }}
 
-            echo "Limpiando archivos antiguos (excepto .env)..."
-            find . -maxdepth 1 ! -name '.env' ! -name '.' -exec rm -rf {} \;
+            echo "Extrayendo nuevo paquete en directorio temporal..."
+            mkdir -p temp_deploy
+            tar xzf deploy.tar.gz -C temp_deploy
 
-            echo "Extrayendo nuevo paquete..."
-            tar xzf deploy.tar.gz
-            rm deploy.tar.gz
+            echo "Reemplazando archivos (excepto .env)..."
+            # Mover todos los archivos excepto .env
+            find temp_deploy -maxdepth 1 -mindepth 1 ! -name '.env' -exec cp -rf {} . \;
+
+            echo "Limpiando archivos temporales..."
+            rm -rf temp_deploy deploy.tar.gz
+
+            echo "Reinstalando dependencias de producción..."
+            npm ci --production
 
             echo "Reiniciando PM2..."
             if pm2 describe mi-backend-dev > /dev/null; then
